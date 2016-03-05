@@ -13,7 +13,7 @@ DOWN = 4
 class Car:
     def __init__(self, pos):
         self.pos = Vector(pos)
-        self.speed = Vector((1, 0))
+        self.speed = Vector((10, 0))
         self.load_image('yellow_car.png')
         self.rect = pygame.Rect(self.pos.x, self.pos.y, 100, 100)
         self.draw()
@@ -50,6 +50,7 @@ class Car:
         rotate_rec.center = origin_rec.center
         rotate_rec.move_ip(self.pos.as_point())
         screen.blit(image_rotate, rotate_rec)
+        pygame.draw.line(screen, (0, 255, 0), self.pos.as_point(), (self.pos + self.speed*10).as_point())
 
 
 class Road:
@@ -115,19 +116,27 @@ pygame.init()
 pygame.display.set_mode((800, 800))
 screen = pygame.display.get_surface()
 pygame.display.set_caption("Car")
+
 car = Car((370, 250))
 road = Road((100, 0), 'road.jpg')
 road2 = Road((100, -915), 'road.jpg')
+
 font = pygame.font.SysFont("Courier New", 18)
 font_finish = pygame.font.SysFont("Courier New", 80)
+
 text2 = font.render('km/h - ', 7, (250, 250, 250))
 text3 = font.render('distance - ', 7, (250, 250, 250))
 text5 = font_finish.render("FINISH", 21, (250, 0, 0))
-distance = 10000
+distance = 10**5
 clock = pygame.time.Clock()
+
 while True:
     text = font.render(str(int(road.speed.len)*5), 7, (250, 250, 250))
-    distance -= int(road.speed.len)*5
+    if road.pos.y < road.speed.y + road.pos.y:
+        distance -= int(road.speed.len)*5
+    elif road.pos.y > road.speed.y + road.pos.y:
+        distance += int(road.speed.len)*5
+
     for event in pygame.event.get():
         road.events(event)
         road2.events(event)
@@ -146,7 +155,7 @@ while True:
     if distance < 0:
         screen.blit(text5, (250, 300))
         distance2 = '0'
-        if road.speed.len*5 > 100:
+        if road.speed.len*5 > 45:
             road2.speed = Vector((0, 9))
             road.speed = Vector((0, 9))
     else:
