@@ -58,6 +58,7 @@ class Road:
         self.pos = Vector(pos)
         self.state = NORMAL
         self.speed = Vector((0, 3))
+        self.max_speed = Vector((0, 26))
         self.direction = self.speed
         self.image = pygame.transform.scale(self.image, (600, 950))
 
@@ -88,11 +89,15 @@ class Road:
 
         if self.state == UP:
             self.speed += self.direction.normalize()
+            if self.speed.len*5 > 130:
+                self.speed = self.max_speed
 
         if self.state == DOWN:
             self.speed -= self.speed.normalize()
-            if self.speed.len < 1:
+            if self.speed.len < 1 and self.speed.len != 0:
                 self.direction = self.speed
+                self.speed = Vector((0, 0))
+
 
         self.pos += self.speed
 
@@ -114,10 +119,15 @@ car = Car((370, 250))
 road = Road((100, 0), 'road.jpg')
 road2 = Road((100, -915), 'road.jpg')
 font = pygame.font.SysFont("Courier New", 18)
+font_finish = pygame.font.SysFont("Courier New", 80)
 text2 = font.render('km/h - ', 7, (250, 250, 250))
+text3 = font.render('distance - ', 7, (250, 250, 250))
+text5 = font_finish.render("FINISH", 21, (250, 0, 0))
+distance = 10000
 clock = pygame.time.Clock()
 while True:
     text = font.render(str(int(road.speed.len)*5), 7, (250, 250, 250))
+    distance -= int(road.speed.len)*5
     for event in pygame.event.get():
         road.events(event)
         road2.events(event)
@@ -132,7 +142,20 @@ while True:
     road.render(screen)
     road2.render(screen)
     car.render(screen)
+
+    if distance < 0:
+        screen.blit(text5, (250, 300))
+        distance2 = '0'
+        if road.speed.len*5 > 100:
+            road2.speed = Vector((0, 9))
+            road.speed = Vector((0, 9))
+    else:
+        distance2 = str(distance)
+
+    text4 = font.render(distance2, 7, (250, 250, 250))
+    screen.blit(text4, (120, 20))
     screen.blit(text2, (0, 0))
     screen.blit(text, (70, 0))
+    screen.blit(text3, (0, 20))
     pygame.display.flip()
 
