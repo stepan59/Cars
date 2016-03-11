@@ -2,6 +2,7 @@ import os
 import sys
 import pygame
 from Vector import Vector
+
 FPS = 60
 NORMAL = 0
 TURN_LEFT = 1
@@ -13,10 +14,9 @@ DOWN = 4
 class Car:
     def __init__(self, pos):
         self.pos = Vector(pos)
-        self.speed = Vector((10, 0))
+        self.speed = Vector((0, -10))
         self.load_image('yellow_car.png')
         self.rect = pygame.Rect(self.pos.x, self.pos.y, 100, 100)
-        self.draw()
         self.state = NORMAL
 
     def load_image(self, name):
@@ -40,17 +40,14 @@ class Car:
         if self.state == TURN_RIGHT:
             self.speed.rotate(2)
 
-    def draw(self):
-        screen.blit(self.image, self.rect)
-
     def render(self, screen):
-        image_rotate = pygame.transform.rotate(self.image, self.speed.angle)
+        image_rotate = pygame.transform.rotate(self.image, self.speed.angle - 90)
         origin_rec = self.image.get_rect()
         rotate_rec = image_rotate.get_rect()
         rotate_rec.center = origin_rec.center
         rotate_rec.move_ip(self.pos.as_point())
         screen.blit(image_rotate, rotate_rec)
-        pygame.draw.line(screen, (0, 255, 0), self.pos.as_point(), (self.pos + self.speed*10).as_point())
+        pygame.draw.line(screen, (0, 220, 0), self.pos.as_point(), (self.pos + self.speed*10).as_point())
 
 
 class Road:
@@ -98,8 +95,6 @@ class Road:
             if self.speed.len < 1 and self.speed.len != 0:
                 self.direction = self.speed
                 self.speed = Vector((0, 0))
-
-
         self.pos += self.speed
 
         if self.pos.y > 800:
@@ -122,16 +117,16 @@ road = Road((100, 0), 'road.jpg')
 road2 = Road((100, -915), 'road.jpg')
 
 font = pygame.font.SysFont("Courier New", 18)
-font_finish = pygame.font.SysFont("Courier New", 80)
+font_finish = pygame.font.SysFont("Courier New", 90)
 
-text2 = font.render('km/h - ', 7, (250, 250, 250))
-text3 = font.render('distance - ', 7, (250, 250, 250))
-text5 = font_finish.render("FINISH", 21, (250, 0, 0))
+text2 = font.render('speed -   km/h ', 7, (220, 220, 220))
+text3 = font.render('Distance - ', 7, (220, 220, 220))
+text5 = font_finish.render("FINISH", 21, (220, 0, 0))
 distance = 10**5
 clock = pygame.time.Clock()
 
 while True:
-    text = font.render(str(int(road.speed.len)*5), 7, (250, 250, 250))
+    text = font.render(str(int(road.speed.len)*5), 7, (220, 220, 220))
     if road.pos.y < road.speed.y + road.pos.y:
         distance -= int(road.speed.len)*5
     elif road.pos.y > road.speed.y + road.pos.y:
@@ -161,10 +156,10 @@ while True:
     else:
         distance2 = str(distance)
 
-    text4 = font.render(distance2, 7, (250, 250, 250))
+    text4 = font.render(distance2, 7, (220, 220, 220))
     screen.blit(text4, (120, 20))
     screen.blit(text2, (0, 0))
-    screen.blit(text, (70, 0))
+    screen.blit(text, (80, 0))
     screen.blit(text3, (0, 20))
     pygame.display.flip()
 
