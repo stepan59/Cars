@@ -105,7 +105,7 @@ class Road:
 
     def render(self, screen):
         screen.blit(self.image, self.pos.as_point())
-        pygame.draw.line(screen, (0, 255, 0), self.pos.as_point(), (self.pos + self.speed*10).as_point())
+        pygame.draw.line(screen, (0, 220, 0), self.pos.as_point(), (self.pos + self.speed*10).as_point())
 
 pygame.init()
 pygame.display.set_mode((800, 800))
@@ -122,16 +122,12 @@ font_finish = pygame.font.SysFont("Courier New", 90)
 text2 = font.render('speed -   km/h ', 7, (220, 220, 220))
 text3 = font.render('Distance - ', 7, (220, 220, 220))
 text5 = font_finish.render("FINISH", 21, (220, 0, 0))
+text6 = font_finish.render("Wrong way", 21, (220, 0, 0))
 distance = 10**5
 clock = pygame.time.Clock()
 
 while True:
     text = font.render(str(int(road.speed.len)*5), 7, (220, 220, 220))
-    if road.pos.y < road.speed.y + road.pos.y:
-        distance -= int(road.speed.len)*5
-    elif road.pos.y > road.speed.y + road.pos.y:
-        distance += int(road.speed.len)*5
-
     for event in pygame.event.get():
         road.events(event)
         road2.events(event)
@@ -143,7 +139,7 @@ while True:
     road2.update()
     if road.speed.len > 1:
         car.update()
-    screen.fill((0, 60, 80))
+    screen.fill((22, 90, 90))
     road.render(screen)
     road2.render(screen)
     car.render(screen)
@@ -151,9 +147,6 @@ while True:
     if distance < 0:
         screen.blit(text5, (250, 300))
         distance2 = '0'
-        if road.speed.len*5 > 45:
-            road2.speed = Vector((0, 9))
-            road.speed = Vector((0, 9))
     else:
         distance2 = str(distance)
 
@@ -162,5 +155,10 @@ while True:
     screen.blit(text2, (0, 0))
     screen.blit(text, (80, 0))
     screen.blit(text3, (0, 20))
-    pygame.display.flip()
 
+    if road.pos.y < road.speed.y + road.pos.y:
+        distance -= int(road.speed.len)*5
+    elif road.pos.y > road.speed.y + road.pos.y:
+        screen.blit(text6, (250, 300))
+        distance += int(road.speed.len)*5
+    pygame.display.flip()
