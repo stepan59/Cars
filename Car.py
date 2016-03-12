@@ -110,7 +110,7 @@ class Road:
 pygame.init()
 pygame.display.set_mode((800, 800))
 screen = pygame.display.get_surface()
-pygame.display.set_caption("Car")
+pygame.display.set_caption("Great Race")
 
 car = Car((370, 250))
 road = Road((100, 0), 'road.jpg')
@@ -141,7 +141,8 @@ while True:
     clock.tick(FPS)
     road.update()
     road2.update()
-    car.update()
+    if road.speed.len > 1:
+        car.update()
     screen.fill((0, 60, 80))
     road.render(screen)
     road2.render(screen)
