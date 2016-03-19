@@ -3,9 +3,10 @@ from pygame.locals import *
 import math
 
 class Vector:
-    def __init__(self,coords):
+    def __init__(self, coords):
         self.x = coords[0]
         self.y = coords[1]
+
     def __add__(self, other):
         return Vector((self.x+other.x, self.y+other.y))
 
@@ -13,7 +14,7 @@ class Vector:
         return Vector((self.x-other.x, self.y-other.y))
 
     def __repr__(self):
-        return "v(%s,%s)"%(math.floor(self.x), math.floor(self.y))
+        return "v(%s,%s)" % (math.floor(self.x), math.floor(self.y))
 
     def __mul__(self, other):
         return Vector((self.x*other, self.y*other))
