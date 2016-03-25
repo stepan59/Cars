@@ -20,7 +20,6 @@ class Car:
         self.rect = self.image.get_rect()
         self.state = NORMAL
         self.direction = self.speed
-        # self.max_speed = Vector((0, 43))
 
     def load_image(self, name):
         fullname = os.path.join('images', name)
@@ -48,10 +47,14 @@ class Car:
             self.speed.rotate(2)
 
         if self.state == UP:
-            self.speed += self.direction.normalize()
-            # # FIXME: неправильно работает ограничение скорости
-            # if self.speed.len > 45.0:
-            #     self.speed = self.max_speed
+                self.speed += self.speed.normalize()
+                if self.speed.len > 10:
+                    pass
+
+
+        if self.speed.len < 1:
+            if self.state == UP:
+                self.speed += self.direction.normalize()
 
         if self.state == DOWN:
             self.speed -= self.speed.normalize()
@@ -120,10 +123,10 @@ road = Road((100, 0), 'road.jpg', car)
 font = pygame.font.SysFont("Courier New", 18)
 font_finish = pygame.font.SysFont("Courier New", 90)
 
-# text2 = font.render('speed -   km/h ', 7, (220, 220, 220))
-# text3 = font.render('Distance - ', 7, (220, 220, 220))
-# text5 = font_finish.render("FINISH", 21, (220, 0, 0))
-# text6 = font_finish.render("Wrong way", 21, (220, 0, 0))
+text_speed = font.render('speed - ', 7, (220, 220, 220))
+text_distance2 = font.render('Distance - ', 7, (220, 220, 220))
+text_finish = font_finish.render("FINISH", 21, (220, 0, 0))
+text_wrong_way = font_finish.render("Wrong way", 21, (220, 0, 0))
 distance = 10 ** 5
 clock = pygame.time.Clock()
 
@@ -134,29 +137,29 @@ while True:
             sys.exit()
     clock.tick(FPS)
     road.update()
-    # if road.speed.len > 1:
-    #     car.update()
     car.update()
     screen.fill((22, 90, 90))
     road.render(screen)
     car.render(screen)
 
-    # if distance < 0:
-    #     screen.blit(text5, (250, 300))
-    #     distance2 = '0'
-    # else:
-    #     distance2 = str(distance)
+    text = font.render(str(int(car.speed.len)), 7, (220, 220, 220))
+    text_distance = font.render(str(distance), 7, (220, 220, 220))
 
-    # text4 = font.render(distance2, 7, (220, 220, 220))
-    # screen.blit(text4, (120, 20))
-    # screen.blit(text2, (0, 0))
-    # # screen.blit(text, (80, 0))
-    # screen.blit(text3, (0, 20))
+    if distance < 0:
+        screen.blit(text_finish, (250, 300))
+        distance2 = '0'
+    else:
+        distance2 = str(distance)
 
-    # if road.pos.y < road.speed.y + road.pos.y:
-    #     distance -= int(road.speed.len)*5
-    # elif road.pos.y > road.speed.y + road.pos.y:
-    #     screen.blit(text6, (250, 300))
-    #     distance += int(road.speed.len)*5
+    screen.blit(text_speed, (0, 0))
+    screen.blit(text, (80, 0))
+    screen.blit(text_distance2, (0, 20))
+    screen.blit(text_distance, (120, 20))
+
+    if road.pos.y > car.speed.y + road.pos.y:
+        distance -= int(car.speed.len)
+    elif road.pos.y < car.speed.y + road.pos.y:
+        screen.blit(text_wrong_way, (250, 300))
+        distance += int(car.speed.len)
 
     pygame.display.flip()
