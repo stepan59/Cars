@@ -49,14 +49,12 @@ class Car:
             self.speed.rotate(2)
 
         if self.state == UP:
-                self.speed += self.speed.normalize()
-                if self.speed.len > 10:
-                    pass
-        #     TODO: сделать ограничение скорости
-
-        if self.speed.len < 1:
-            if self.state == UP:
+            if self.speed.len < 1:
                 self.speed += self.direction.normalize()
+            self.speed += self.speed.normalize()
+            if self.speed.len > 50:
+                pass
+        #    TODO: сделать ограничение скорости
 
         if self.state == DOWN:
             self.speed -= self.speed.normalize()
@@ -66,12 +64,20 @@ class Car:
                 self.speed = Vector((0, 0))
 
     def render(self, screen):
-        image_rotate = pygame.transform.rotate(self.image, self.speed.angle - 90)
-        origin_rec = self.image.get_rect()
-        rotate_rec = image_rotate.get_rect()
-        rotate_rec.center = origin_rec.center
-        rotate_rec.move_ip(self.pos.as_point())
-        screen.blit(image_rotate, rotate_rec)
+        if self.speed.len > 1:
+            image_rotate = pygame.transform.rotate(self.image, self.speed.angle - 90)
+            origin_rec = self.rect
+            rotate_rec = image_rotate.get_rect()
+            rotate_rec.center = origin_rec.center
+            rotate_rec.move_ip(self.pos.as_point())
+            screen.blit(image_rotate, rotate_rec)
+        if self.speed.len < 1:
+            image_rotate = pygame.transform.rotate(self.image, self.direction.angle - 90)
+            origin_rec = self.rect
+            rotate_rec = image_rotate.get_rect()
+            rotate_rec.center = origin_rec.center
+            rotate_rec.move_ip(self.pos.as_point())
+            screen.blit(image_rotate, rotate_rec)
         pygame.draw.line(screen, (0, 220, 0), self.pos.as_point(), (self.pos + self.speed * 10).as_point())
 
 
@@ -129,7 +135,7 @@ text_speed = font.render('speed - ', 7, (220, 220, 220))
 text_distance = font.render('Distance - ', 7, (220, 220, 220))
 text_finish = font_finish.render("FINISH", 21, (220, 0, 0))
 text_wrong_way = font_finish.render("Wrong way", 21, (220, 0, 0))
-text_exit = font.render("Press ESC for exit ", 21, (250, 0, 0))
+text_exit = font.render("Press ESC for exit", 7, (250, 0, 0))
 distance = 10 ** 4
 clock = pygame.time.Clock()
 
