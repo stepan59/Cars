@@ -58,7 +58,6 @@ class Car:
 
         if self.state == DOWN:
             self.speed -= self.speed.normalize()
-            # FIXME: при нулевой скорости, неверное направление картинки автомобиля
             if self.speed.len < 1 and self.speed.len != 0:
                 self.direction = self.speed
                 self.speed = Vector((0, 0))
