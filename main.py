@@ -145,7 +145,6 @@ pygame.display.set_caption("Great Race")
 
 car = Car((325, 450))
 road = Road((100, 0), 'road.jpg', car)
-enemy1 = Enemy('race_car.png')
 enemy2 = Enemy('yellow_car.png')
 
 font = pygame.font.SysFont("Courier New", 18)
@@ -167,11 +166,9 @@ while True:
     clock.tick(FPS)
     road.update()
     car.update()
-    enemy1.update()
     enemy2.update()
     screen.fill((22, 90, 90))
     road.render(screen)
-    enemy1.render(screen)
     enemy2.render(screen)
     car.render(screen)
 
