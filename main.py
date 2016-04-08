@@ -1,4 +1,5 @@
 import os
+import random
 import sys
 import pygame
 from Vector import Vector
@@ -52,9 +53,9 @@ class Car:
             if self.speed.len < 1:
                 self.speed += self.direction.normalize()
             self.speed += self.speed.normalize()
-            if self.speed.len > 50:
+            if self.speed.len > 10:
                 pass
-        #    TODO: сделать ограничение скорости
+        # TODO: сделать ограничение скорости
 
         if self.state == DOWN:
             self.speed -= self.speed.normalize()
@@ -63,16 +64,15 @@ class Car:
                 self.speed = Vector((0, 0))
 
     def render(self, screen):
+        origin_rec = self.rect
         if self.speed.len > 1:
             image_rotate = pygame.transform.rotate(self.image, self.speed.angle - 90)
-            origin_rec = self.rect
             rotate_rec = image_rotate.get_rect()
             rotate_rec.center = origin_rec.center
             rotate_rec.move_ip(self.pos.as_point())
             screen.blit(image_rotate, rotate_rec)
         if self.speed.len < 1:
             image_rotate = pygame.transform.rotate(self.image, self.direction.angle - 90)
-            origin_rec = self.rect
             rotate_rec = image_rotate.get_rect()
             rotate_rec.center = origin_rec.center
             rotate_rec.move_ip(self.pos.as_point())
@@ -119,6 +119,25 @@ class Road:
         pygame.draw.line(screen, (0, 220, 0), self.pos2.as_point(), (self.pos2 + car.speed * 10).as_point())
 
 
+class Enemy:
+    def __init__(self, name):
+        self.image = pygame.image.load(os.path.join('images', name))
+        self.pos = Vector((random.randint(180, 460), random.randint(-800, 1600)))
+        self.speed = Vector((0, random.randint(-10, -1)))
+        self.rect = self.image.get_rect()
+        self.car = car
+
+    def update(self):
+        if self.car.speed.len < self.speed.len:
+            self.pos += self.speed
+        elif self.car.speed.len > self.speed.len and self.car.speed.len > 0:
+            self.pos -= self.speed
+
+    def render(self, screen):
+        screen.blit(self.image, self.pos.as_point())
+        pygame.draw.line(screen, (0, 220, 0), self.pos.as_point(), (self.pos + self.speed * 10).as_point())
+
+
 pygame.init()
 pygame.display.set_mode((800, 800))
 screen = pygame.display.get_surface()
@@ -126,6 +145,8 @@ pygame.display.set_caption("Great Race")
 
 car = Car((325, 450))
 road = Road((100, 0), 'road.jpg', car)
+enemy1 = Enemy('race_car.png')
+enemy2 = Enemy('yellow_car.png')
 
 font = pygame.font.SysFont("Courier New", 18)
 font_finish = pygame.font.SysFont("Courier New", 90)
@@ -146,8 +167,12 @@ while True:
     clock.tick(FPS)
     road.update()
     car.update()
+    enemy1.update()
+    enemy2.update()
     screen.fill((22, 90, 90))
     road.render(screen)
+    enemy1.render(screen)
+    enemy2.render(screen)
     car.render(screen)
 
     text_speed2 = font.render(str(int(car.speed.len)), 7, (220, 220, 220))
