@@ -3,12 +3,14 @@ import sys
 import pygame
 from Vector import Vector
 
+# colliderect(Rect) test if two rectangles overlap
+
 NORMAL = 0
 TURN_LEFT = 1
 TURN_RIGHT = 2
 UP = 3
 DOWN = 4
-MAX_SPEED = 40
+MAX_SPEED = 20
 
 
 class Car:
@@ -25,6 +27,7 @@ class Car:
     def load_image(self, name):
         fullname = os.path.join('images', name)
         self.image = pygame.image.load(fullname)
+        self.image = pygame.transform.scale(self.image, (195, 195))
         return self.image
 
     def events(self, event):
