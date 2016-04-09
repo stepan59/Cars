@@ -55,7 +55,7 @@ class Car:
             if self.speed.len < 1:
                 self.speed += self.direction.normalize()
             self.speed += self.speed.normalize()
-            if self.speed.len > 71:
+            if self.speed.len > 46:
                 self.speed = self.max_speed
 
         if self.state == DOWN:
