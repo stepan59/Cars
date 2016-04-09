@@ -3,7 +3,7 @@ import sys
 import pygame
 from Vector import Vector
 
-# colliderect(Rect) test if two rectangles overlap
+# Rect1.colliderect(Rect2) test if two rectangles overlap
 
 NORMAL = 0
 TURN_LEFT = 1
