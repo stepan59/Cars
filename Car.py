@@ -8,7 +8,7 @@ TURN_LEFT = 1
 TURN_RIGHT = 2
 UP = 3
 DOWN = 4
-MAX_SPEED = 42
+MAX_SPEED = 40
 
 
 class Car:
