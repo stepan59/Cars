@@ -21,6 +21,7 @@ class Car:
         self.rect = self.image.get_rect()
         self.state = NORMAL
         self.direction = self.speed
+        self.max_speed = None
 
     def load_image(self, name):
         fullname = os.path.join('images', name)
@@ -43,6 +44,7 @@ class Car:
             self.state = NORMAL
 
     def update(self):
+        self.max_speed = self.speed
         if self.state == TURN_LEFT:
             self.speed.rotate(-2)
 
@@ -53,9 +55,8 @@ class Car:
             if self.speed.len < 1:
                 self.speed += self.direction.normalize()
             self.speed += self.speed.normalize()
-            if self.speed.len > 10:
-                pass
-        # TODO: сделать ограничение скорости
+            if self.speed.len > 71:
+                self.speed = self.max_speed
 
         if self.state == DOWN:
             self.speed -= self.speed.normalize()
@@ -145,7 +146,7 @@ pygame.display.set_caption("Great Race")
 
 car = Car((325, 450))
 road = Road((100, 0), 'road.jpg', car)
-enemy2 = Enemy('yellow_car.png')
+# enemy1 = Enemy('yellow_car.png')
 
 font = pygame.font.SysFont("Courier New", 18)
 font_finish = pygame.font.SysFont("Courier New", 90)
@@ -155,8 +156,9 @@ text_distance = font.render('Distance - ', 7, (220, 220, 220))
 text_finish = font_finish.render("FINISH", 21, (220, 0, 0))
 text_wrong_way = font_finish.render("Wrong way", 21, (220, 0, 0))
 text_exit = font.render("Press ESC for exit", 7, (250, 0, 0))
-distance = 10 ** 4
+distance = 10 ** 5
 clock = pygame.time.Clock()
+
 
 while True:
     for event in pygame.event.get():
@@ -166,10 +168,10 @@ while True:
     clock.tick(FPS)
     road.update()
     car.update()
-    enemy2.update()
+    # enemy1.update()
     screen.fill((22, 90, 90))
     road.render(screen)
-    enemy2.render(screen)
+    # enemy1.render(screen)
     car.render(screen)
 
     text_speed2 = font.render(str(int(car.speed.len)), 7, (220, 220, 220))
