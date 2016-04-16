@@ -14,11 +14,11 @@ MAX_SPEED = 20
 
 
 class Car:
-    def __init__(self, pos):
+    def __init__(self, pos, image):
         self.pos = Vector(pos)
         self.speed = Vector((0, -2))
         self.image = None
-        self.load_image('yellow_car.png')
+        self.load_image(image)
         self.rect = self.image.get_rect()
         self.state = NORMAL
         self.direction = self.speed
@@ -68,7 +68,7 @@ class Car:
 
     def render(self, screen):
         origin_rec = self.rect
-        if self.speed.len > 1:
+        if self.speed.len > 1 or self.speed.len == 1:
             image_rotate = pygame.transform.rotate(self.image, self.speed.angle - 90)
             rotate_rec = image_rotate.get_rect()
             rotate_rec.center = origin_rec.center
@@ -81,3 +81,4 @@ class Car:
             rotate_rec.move_ip(self.pos.as_point())
             screen.blit(image_rotate, rotate_rec)
         pygame.draw.line(screen, (0, 220, 0), self.pos.as_point(), (self.pos + self.speed * 10).as_point())
+        pygame.draw.rect(screen, (0, 0, 0), self.rect, 3)
