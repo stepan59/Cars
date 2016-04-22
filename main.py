@@ -7,7 +7,7 @@ from Vector import Vector
 FPS = 60
 
 pygame.init()
-pygame.display.set_mode((1000, 800))
+pygame.display.set_mode((800, 800))
 screen = pygame.display.get_surface()
 pygame.display.set_caption("Great Race")
 
