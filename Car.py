@@ -65,6 +65,7 @@ class Car:
             if self.speed.len < 1 and self.speed.len != 0:
                 self.direction = self.speed
                 self.speed = Vector((0, 0))
+        self.rect.move(self.speed.x, self.speed.y)
 
     def render(self, screen):
         origin_rec = self.rect
@@ -81,4 +82,4 @@ class Car:
             rotate_rec.move_ip(self.pos.as_point())
             screen.blit(image_rotate, rotate_rec)
         pygame.draw.line(screen, (0, 220, 0), self.pos.as_point(), (self.pos + self.speed * 10).as_point())
-        pygame.draw.rect(screen, (0, 0, 0), self.rect, 3)
+        pygame.draw.rect(screen, (220, 220, 220), self.rect.move(self.pos.x, self.pos.y), 3)
