@@ -3,7 +3,6 @@ import sys
 import pygame
 from Vector import Vector
 
-# Rect1.colliderect(Rect2) test if two rectangles overlap
 
 NORMAL = 0
 TURN_LEFT = 1
@@ -66,6 +65,24 @@ class Car:
                 self.direction = self.speed
                 self.speed = Vector((0, 0))
         self.rect.move(self.speed.x, self.speed.y)
+
+    def inside_rect(self, rect1, rect2):
+        if not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).topright) and \
+                not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).topright):
+            # print('Столкновение topright')
+            self.speed.x -= 0.5
+        elif not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).topleft) and \
+                not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).topleft):
+            # print('Столкновение topleft')
+            self.speed.x += 0.5
+        if not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomright) and \
+                not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomright):
+            # print('Столкновение bottomright')
+            self.speed.x -= 0.5
+        elif not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft) and \
+                not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft):
+            # print('Столкновение bottomleft')
+            self.speed.x += 0.5
 
     def render(self, screen):
         origin_rec = self.rect

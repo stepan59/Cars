@@ -24,12 +24,9 @@ text_distance = font.render('Distance - ', 7, (220, 50, 0))
 text_finish = font_finish.render("FINISH", 21, (220, 50, 0))
 text_wrong_way = font_finish.render("Wrong way", 21, (220, 50, 0))
 text_exit = font.render("Press ESC for exit", 7, (220, 50, 0))
-text_car_hp = font.render('Car hp ', 7, (220, 50, 0))
-text_car_breaks_down = font2.render('Your car breaks down', 21, (220, 50, 0))
-text_depart_from_road = font2.render("Depart from the road", 21, (220, 50, 0))
 # background_image = pygame.image.load('images/sand.png')
 distance = 10 ** 5
-car_hp = 100
+# car_hp = 500
 clock = pygame.time.Clock()
 
 while True:
@@ -47,19 +44,13 @@ while True:
     road.render(screen)
     barrel.render(screen)
     car.render(screen)
+    car.inside_rect(road.rect.move(road.pos.x, road.pos.y), road.rect.move(road.pos2.x, road.pos2.y))
 
     text_speed2 = font.render(str(int(car.speed.len)), 7, (220, 220, 220))
     text_distance2 = font.render(str(distance), 7, (220, 220, 220))
 
-    if car.rect.move(car.pos.x, car.pos.y).colliderect(road.rect.move(road.pos.x, road.pos.y)) or car.rect.move(car.pos.x, car.pos.y).colliderect(road.rect.move(road.pos2.x, road.pos2.y)) :
-        pass
-    else:
-        screen.blit(text_depart_from_road, (220, 270))
-
     if car.rect.move(car.pos.x, car.pos.y).colliderect(barrel.rect.move(barrel.pos.x, barrel.pos.y)):
-        barrel.pos.x -= 5
-        barrel.pos.y -= 5
-        car_hp -= 1
+        print("Столкновение")
 
     if distance < 0:
         text = font.render('0', 7, (220, 80, 0))
@@ -69,13 +60,8 @@ while True:
     else:
         screen.blit(text_distance2, (120, 20))
 
-    if car_hp < 0:
-        car.speed = Vector((0,0))
-        screen.blit(text_car_breaks_down, (250, 250))
-
     screen.blit(text_speed, (0, 0))
-    screen.blit(text_car_hp, (100, 0))
-    screen.blit(text_speed2, (120, 0))
+    screen.blit(text_speed2, (90, 0))
     screen.blit(text_distance, (0, 20))
     screen.blit(text_exit, (790, 0))
 
