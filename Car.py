@@ -63,7 +63,7 @@ class Car:
             self.speed -= self.speed.normalize()
             if self.speed.len < 1 and self.speed.len != 0:
                 self.direction = self.speed
-                self.speed = Vector((0,0))
+                self.speed = Vector((0, 0))
         self.rect.move(self.speed.x, self.speed.y)
 
     def inside_rect(self, rect1, rect2):
