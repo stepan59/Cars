@@ -69,20 +69,16 @@ class Car:
     def inside_rect(self, rect1, rect2):
         if not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).topright) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).topright):
-            # print('Столкновение topright')
-            self.speed.x -= 0.5
+            self.speed.x -= 0.4
         elif not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).topleft) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).topleft):
-            # print('Столкновение topleft')
-            self.speed.x += 0.5
+            self.speed.x += 0.4
         if not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomright) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomright):
-            # print('Столкновение bottomright')
-            self.speed.x -= 0.5
+            self.speed.x -= 0.4
         elif not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft):
-            # print('Столкновение bottomleft')
-            self.speed.x += 0.5
+            self.speed.x += 0.4
 
     def render(self, screen):
         origin_rec = self.rect
