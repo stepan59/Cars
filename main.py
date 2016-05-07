@@ -26,7 +26,7 @@ text_wrong_way = font_finish.render("Wrong way", 21, (220, 50, 0))
 text_exit = font.render("Press ESC for exit", 7, (220, 50, 0))
 text_time = font.render("Time -   min   sec", 7, (220, 50, 0))
 text_play = font_finish.render("Play", 21, (220, 50, 0))
-text_options = font_finish.render("Options", 21, (220, 50, 0))
+text_records = font_finish.render("Records", 21, (220, 50, 0))
 text_quit = font_finish.render("Quit", 21, (220, 50, 0))
 distance = 10 ** 5
 clock = pygame.time.Clock()
@@ -34,28 +34,34 @@ seconds = 0
 minutes = 0
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-                sys.exit()
-    done = False
-    screen.fill((100, 100, 100))
-    screen.blit(text_play, (300, 200))
-    screen.blit(text_options, (300, 300))
-    screen.blit(text_quit, (300, 400))
-    mouse_pos = pygame.mouse.get_pos()
-    if (300 < mouse_pos[0] < 400) and (200 < mouse_pos[1] < 255):
-        text_play = font_finish.render("Play", 21, (220, 250, 0))
-        # done = True
-    else:
-        text_play = font_finish.render("Play", 21, (220, 50, 0))
-
-    if (300 < mouse_pos[0] < 400) and (400 < mouse_pos[1] < 555):
-        text_quit = font_finish.render("Quit", 21, (220, 250, 0))
-        # sys.exit()
-    else:
-        text_quit = font_finish.render("Quit", 21, (220, 50, 0))
-    pygame.display.flip()
-    while done:
+    # for event in pygame.event.get():
+    #     if event.type == pygame.QUIT:
+    #             sys.exit()
+    # done = False
+    # screen.fill((100, 100, 100))
+    # screen.blit(text_play, (300, 200))
+    # screen.blit(text_records, (300, 300))
+    # screen.blit(text_quit, (300, 400))
+    # mouse_pos = pygame.mouse.get_pos()
+    # if (300 < mouse_pos[0] < 400) and (200 < mouse_pos[1] < 255):
+    #     text_play = font_finish.render("Play", 21, (220, 250, 0))
+    #     # done = True
+    # else:
+    #     text_play = font_finish.render("Play", 21, (220, 50, 0))
+    #
+    # if (300 < mouse_pos[0] < 400) and (300 < mouse_pos[1] < 455):
+    #     text_quit = font_finish.render("Records", 21, (220, 250, 0))
+    #
+    # else:
+    #     text_quit = font_finish.render("Records", 21, (220, 50, 0))
+    #
+    # if (300 < mouse_pos[0] < 400) and (400 < mouse_pos[1] < 555):
+    #     text_quit = font_finish.render("Quit", 21, (220, 250, 0))
+    #     # sys.exit()
+    # else:
+    #     text_quit = font_finish.render("Quit", 21, (220, 50, 0))
+    # pygame.display.flip()
+    # while done:
         for event in pygame.event.get():
             car.events(event)
             if event.type == pygame.QUIT:

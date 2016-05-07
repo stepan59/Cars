@@ -10,10 +10,14 @@ TURN_RIGHT = 2
 UP = 3
 DOWN = 4
 MAX_SPEED = 20
+ROTATE_ANGLE = 2
+WHITE = (220, 220, 220)
+GREEN = (0, 220, 0)
 
 
 class Car:
     def __init__(self, pos, image):
+        self.size = (195, 195)
         self.pos = Vector(pos)
         self.speed = Vector((0, -2))
         self.image = None
@@ -26,7 +30,7 @@ class Car:
     def load_image(self, name):
         fullname = os.path.join('images', name)
         self.image = pygame.image.load(fullname)
-        self.image = pygame.transform.scale(self.image, (195, 195))
+        self.image = pygame.transform.scale(self.image, self.size)
         return self.image
 
     def events(self, event):
@@ -44,13 +48,13 @@ class Car:
         if event.type == pygame.KEYUP:
             self.state = NORMAL
 
-    def update(self):
+    def update(self):  # поворот и изменение скорости автомобиля
         self.max_speed = self.speed
         if self.state == TURN_LEFT:
-            self.speed.rotate(-2)
+            self.speed.rotate(-ROTATE_ANGLE)
 
         if self.state == TURN_RIGHT:
-            self.speed.rotate(2)
+            self.speed.rotate(ROTATE_ANGLE)
 
         if self.state == UP:
             if self.speed.len < 1:
@@ -66,33 +70,31 @@ class Car:
                 self.speed = Vector((0, 0))
         self.rect.move(self.speed.x, self.speed.y)
 
-    def inside_rect(self, rect1, rect2):
+    def inside_rect(self, rect1, rect2):  # обработка столкновений с дорогой
+        dx = -1
         if not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).topright) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).topright):
-            self.speed.x -= 0.4
+            self.speed.x *= dx
         elif not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).topleft) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).topleft):
-            self.speed.x += 0.4
+            self.speed.x *= dx
         if not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomright) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomright):
-            self.speed.x -= 0.4
+            self.speed.x *= -dx
         elif not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft):
-            self.speed.x += 0.4
+            self.speed.x *= -dx
 
     def render(self, screen):
         origin_rec = self.rect
-        if self.speed.len > 1 or self.speed.len == 1:
+        # dspeed =
+        if self.speed.len >= 1:
             image_rotate = pygame.transform.rotate(self.image, self.speed.angle - 90)
-            rotate_rec = image_rotate.get_rect()
-            rotate_rec.center = origin_rec.center
-            rotate_rec.move_ip(self.pos.as_point())
-            screen.blit(image_rotate, rotate_rec)
-        if self.speed.len < 1:
+        else:
             image_rotate = pygame.transform.rotate(self.image, self.direction.angle - 90)
-            rotate_rec = image_rotate.get_rect()
-            rotate_rec.center = origin_rec.center
-            rotate_rec.move_ip(self.pos.as_point())
-            screen.blit(image_rotate, rotate_rec)
-        pygame.draw.line(screen, (0, 220, 0), self.pos.as_point(), (self.pos + self.speed * 10).as_point())
-        pygame.draw.rect(screen, (220, 220, 220), self.rect.move(self.pos.x, self.pos.y), 3)
+        rotate_rec = image_rotate.get_rect()
+        rotate_rec.center = origin_rec.center
+        rotate_rec.move_ip(self.pos.as_point())
+        screen.blit(image_rotate, rotate_rec)
+        pygame.draw.line(screen, GREEN, self.pos.as_point(), (self.pos + self.speed * 10).as_point())
+        pygame.draw.rect(screen, WHITE, self.rect.move(self.pos.x, self.pos.y), 3)

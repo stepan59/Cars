@@ -8,10 +8,11 @@ class Road:
         self.load_image(image)
         self.pos = Vector(pos)
         self.pos2 = self.pos + Vector((0, -800))
+        self.size = (600, 900)
         self.car = car
         self.direction = car.speed
-        self.image = pygame.transform.scale(self.image, (600, 900))
-        self.image2 = pygame.transform.scale(self.image, (600, 900))
+        self.image = pygame.transform.scale(self.image, self.size)
+        self.image2 = pygame.transform.scale(self.image, self.size)
         self.rect = self.image.get_rect()
 
     def load_image(self, name):
