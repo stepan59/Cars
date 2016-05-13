@@ -6,11 +6,11 @@ from Vector import Vector
 
 class Object:
     def __init__(self, image, car):
-        self.pos = Vector((random.randint(0, 800), random.randint(0, 800)))
+        self.car = car
+        self.pos = Vector((random.randint(self.car.pos.x-25, self.car.pos.x+25), random.randint(0, 800)))
         self.image = None
         self.load_image(image)
         self.rect = self.image.get_rect()
-        self.car = car
 
     def load_image(self, name):
         fullname = os.path.join('images', name)
@@ -23,11 +23,11 @@ class Object:
 
         if self.pos.y > 800:
             self.pos.y = -800
-            self.pos.x = random.randint(0, 800)
+            self.pos.x = random.randint(self.car.pos.x-25, self.car.pos.x+25)
 
         if self.pos.y < -800:
             self.pos.y = 800
-            self.pos.x = random.randint(0, 800)
+            self.pos.x = random.randint(self.car.pos.x-25, self.car.pos.x+25)
 
     def render(self, screen):
         screen.blit(self.image, self.pos.as_point())

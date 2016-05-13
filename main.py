@@ -2,10 +2,46 @@ import sys
 import pygame
 from Car import Car
 from Road import Road
+from Menu import Menu
 from Objects import Object
 from Vector import Vector
 
 FPS = 60
+
+
+# def menu(text1, text2, text3, text_1, text_2, text_3, screen):
+#     global done
+#     screen.fill((100, 100, 100))
+#     screen.blit(text1, (300, 200))
+#     screen.blit(text2, (300, 300))
+#     screen.blit(text3, (300, 400))
+#     mouse_pos = pygame.mouse.get_pos()
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#                     sys.exit()
+#         if (300 < mouse_pos[0] < 400) and (200 < mouse_pos[1] < 280):
+#             text1 = font_finish.render(text_1, 21, (220, 250, 250))
+#             if event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_SPACE:
+#                     done = True
+#                     return done
+#         else:
+#             text1 = font_finish.render(text_1, 21, (220, 50, 0))
+#
+#         if (300 < mouse_pos[0] < 400) and (300 < mouse_pos[1] < 380):
+#             text2 = font_finish.render(text_2, 21, (220, 250, 0))
+#
+#         else:
+#             text2 = font_finish.render(text_2, 21, (220, 50, 0))
+#
+#         if (300 < mouse_pos[0] < 400) and (400 < mouse_pos[1] < 480):
+#             text3 = font_finish.render(text_3, 21, (220, 250, 0))
+#             if event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_SPACE:
+#                     sys.exit()
+#         else:
+#             text3 = font_finish.render(text_3, 21, (220, 50, 0))
+#     pygame.display.flip()
 
 pygame.init()
 pygame.display.set_mode((1000, 800))
@@ -25,43 +61,18 @@ text_finish = font_finish.render("FINISH", 21, (220, 50, 0))
 text_wrong_way = font_finish.render("Wrong way", 21, (220, 50, 0))
 text_exit = font.render("Press ESC for exit", 7, (220, 50, 0))
 text_time = font.render("Time -   min   sec", 7, (220, 50, 0))
-text_play = font_finish.render("Play", 21, (220, 50, 0))
-text_records = font_finish.render("Records", 21, (220, 50, 0))
-text_quit = font_finish.render("Quit", 21, (220, 50, 0))
+text_play = (font_finish.render("Play", 21, (220, 50, 0)), (300, 200))
+text_records = (font_finish.render("Records", 21, (220, 50, 0)), (300, 300))
+text_quit = (font_finish.render("Quit", 21, (220, 50, 0)), (300, 400))
+menu = Menu(screen)
 distance = 10 ** 5
 clock = pygame.time.Clock()
 seconds = 0
 minutes = 0
-
+done = False
 while True:
-    # for event in pygame.event.get():
-    #     if event.type == pygame.QUIT:
-    #             sys.exit()
-    # done = False
-    # screen.fill((100, 100, 100))
-    # screen.blit(text_play, (300, 200))
-    # screen.blit(text_records, (300, 300))
-    # screen.blit(text_quit, (300, 400))
-    # mouse_pos = pygame.mouse.get_pos()
-    # if (300 < mouse_pos[0] < 400) and (200 < mouse_pos[1] < 255):
-    #     text_play = font_finish.render("Play", 21, (220, 250, 0))
-    #     # done = True
-    # else:
-    #     text_play = font_finish.render("Play", 21, (220, 50, 0))
-    #
-    # if (300 < mouse_pos[0] < 400) and (300 < mouse_pos[1] < 455):
-    #     text_quit = font_finish.render("Records", 21, (220, 250, 0))
-    #
-    # else:
-    #     text_quit = font_finish.render("Records", 21, (220, 50, 0))
-    #
-    # if (300 < mouse_pos[0] < 400) and (400 < mouse_pos[1] < 555):
-    #     text_quit = font_finish.render("Quit", 21, (220, 250, 0))
-    #     # sys.exit()
-    # else:
-    #     text_quit = font_finish.render("Quit", 21, (220, 50, 0))
-    # pygame.display.flip()
-    # while done:
+    menu.render(text_play, text_records, text_quit)
+    while done:
         for event in pygame.event.get():
             car.events(event)
             if event.type == pygame.QUIT:
