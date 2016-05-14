@@ -24,6 +24,12 @@ class Game:
         self.screen.fill(GREY)
         self.car.render(self.screen)
         self.road.render(self.screen)
+        self.screen.blit(self.font.render('Speed - ', 7, (220, 50, 0)), (0, 0))
+        self.screen.blit(self.font.render("Time -   min   sec", 7, (220, 50, 0)), (0, 40))
+        self.screen.blit(self.font.render(str(self.minutes), 7, (220, 220, 220)), (80, 40))
+        self.screen.blit(self.font.render(str(int(self.seconds)), (140, 40))
+        self.screen.blit(self.text_speed2, (90, 0))
+        self.screen.blit(self.font.render('Distance - ', 7, (220, 50, 0)), (0, 20))
 
     def update(self):
         self.road.update()
