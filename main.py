@@ -59,20 +59,21 @@ text_speed = font.render('Speed - ', 7, (220, 50, 0))
 text_distance = font.render('Distance - ', 7, (220, 50, 0))
 text_finish = font_finish.render("FINISH", 21, (220, 50, 0))
 text_wrong_way = font_finish.render("Wrong way", 21, (220, 50, 0))
-text_exit = font.render("Press ESC for exit", 7, (220, 50, 0))
 text_time = font.render("Time -   min   sec", 7, (220, 50, 0))
-text_play = (font_finish.render("Play", 21, (220, 50, 0)), (300, 200))
-text_records = (font_finish.render("Records", 21, (220, 50, 0)), (300, 300))
-text_quit = (font_finish.render("Quit", 21, (220, 50, 0)), (300, 400))
-menu = Menu(screen)
+text_play = (300, 200)
+text_records = (300, 325)
+text_quit = (300, 450)
+menu = Menu()
 distance = 10 ** 5
 clock = pygame.time.Clock()
 seconds = 0
 minutes = 0
+records = ['1.10']
 done = False
 while True:
-    menu.render(text_play, text_records, text_quit)
+    menu.render()
     while done:
+        time = str(minutes) + '.' + str(seconds)
         for event in pygame.event.get():
             car.events(event)
             if event.type == pygame.QUIT:
@@ -102,7 +103,6 @@ while True:
             text = font.render('0', 7, (220, 80, 0))
             screen.blit(text_finish, (250, 300))
             screen.blit(text, (120, 20))
-            screen.blit(text_exit, (315, 380))
         else:
             seconds += clock.get_time()/1000
             screen.blit(text_distance2, (120, 20))
@@ -113,7 +113,6 @@ while True:
         screen.blit(text_seconds, (140, 40))
         screen.blit(text_speed2, (90, 0))
         screen.blit(text_distance, (0, 20))
-        screen.blit(text_exit, (790, 0))
 
         if road.pos.y > car.speed.y + road.pos.y:
             distance -= int(car.speed.len)
