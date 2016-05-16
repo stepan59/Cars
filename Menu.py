@@ -2,7 +2,8 @@ import sys
 
 import pygame
 
-GREY = (100, 100, 100)
+BLACK = (0, 0, 0)
+BLUE = (0, 0, 250)
 
 
 class Menu:
@@ -11,12 +12,12 @@ class Menu:
         pygame.display.set_mode((1000, 800))
         self.screen = pygame.display.get_surface()
         self.font = pygame.font.SysFont("Courier New", 75)
-        self.screen.fill(GREY)
+        self.screen.fill(BLACK)
         self.text_play_pos = (300, 200)
         self.text_records_pos = (300, 325)
         self.text_quit_pos = (300, 450)
 
-    def render(self):
+    def render(self, game):
         mouse_pos = pygame.mouse.get_pos()
 
         for event in pygame.event.get():
@@ -25,15 +26,16 @@ class Menu:
 
             if self.text_play_pos[0] - 25 < mouse_pos[0] < self.text_play_pos[0] + 160 \
                     and self.text_play_pos[1] - 50 < mouse_pos[1] < self.text_play_pos[1] + 100:
-                self.screen.blit(self.font.render("Play", 21, (0, 0, 0)), self.text_play_pos)
+                self.screen.blit(self.font.render("Play", 21, BLUE), self.text_play_pos)
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     print('Play')
+                    game.run()
             else:
                 self.screen.blit(self.font.render("Play", 21, (220, 50, 0)), self.text_play_pos)
 
             if self.text_records_pos[0] - 25 < mouse_pos[0] < self.text_records_pos[0] + 330 \
                     and self.text_records_pos[1] < mouse_pos[1] < self.text_records_pos[1] + 70:
-                self.screen.blit(self.font.render("Records", 21, (0, 0, 0)), self.text_records_pos)
+                self.screen.blit(self.font.render("Records", 21, BLUE), self.text_records_pos)
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     print('Records')
             else:
@@ -41,17 +43,19 @@ class Menu:
 
             if self.text_quit_pos[0] - 25 < mouse_pos[0] < self.text_quit_pos[0] + 160\
                     and self.text_quit_pos[1] - 20 < mouse_pos[1] < self.text_quit_pos[1] + 60:
-                self.screen.blit(self.font.render("Quit", 21, (0, 0, 0)), self.text_quit_pos)
+                self.screen.blit(self.font.render("Quit", 21, BLUE), self.text_quit_pos)
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     print('Quit')
-                    # sys.exit()
+                    sys.exit()
             else:
                 self.screen.blit(self.font.render("Quit", 21, (220, 50, 0)), self.text_quit_pos)
         pygame.display.flip()
 
-    def run(self):
+    def run(self, game):
+        self.screen.fill(BLACK)
         while True:
-            self.render()
+            self.render(game)
+
 
 if __name__ == '__main__':
     menu = Menu()

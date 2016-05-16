@@ -41,7 +41,3 @@ class Road:
     def render(self, screen):
         screen.blit(self.image, self.pos.as_point())
         screen.blit(self.image2, self.pos2.as_point())
-        pygame.draw.line(screen, (0, 220, 0), self.pos.as_point(), (self.pos + self.car.speed * 10).as_point())
-        pygame.draw.line(screen, (0, 220, 0), self.pos2.as_point(), (self.pos2 + self.car.speed * 10).as_point())
-        pygame.draw.rect(screen, (0, 0, 0), self.rect.move(self.pos.x, self.pos.y), 3)
-        pygame.draw.rect(screen, (0, 0, 0), self.rect.move(self.pos2.x, self.pos2.y), 3)

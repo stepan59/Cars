@@ -43,12 +43,11 @@ class Car:
                 self.state = UP
             elif event.key == pygame.K_DOWN:
                 self.state = DOWN
-            elif event.key == pygame.K_ESCAPE:
-                sys.exit()
         if event.type == pygame.KEYUP:
             self.state = NORMAL
 
     def update(self):  # поворот и изменение скорости автомобиля
+
         self.max_speed = self.speed
         if self.state == TURN_LEFT:
             self.speed.rotate(-ROTATE_ANGLE)
@@ -84,6 +83,21 @@ class Car:
         elif not rect1.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft) and \
                 not rect2.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft):
             self.speed.x *= -dx
+
+    def in_rect(self, rect):
+        if rect.collidepoint(self.rect.move(self.pos.x, self.pos.y).topright):
+            self.speed -= self.speed.normalize()
+        elif rect.collidepoint(self.rect.move(self.pos.x, self.pos.y).topleft):
+            self.speed -= self.speed.normalize()
+        if rect.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomright):
+            self.speed -= self.speed.normalize()
+        elif rect.collidepoint(self.rect.move(self.pos.x, self.pos.y).bottomleft):
+            self.speed -= self.speed.normalize()
+        if rect.collidepoint(self.rect.move(self.pos.x, self.pos.y).midtop):
+            self.speed -= self.speed.normalize()
+        if self.speed.len < 1 and self.speed.len != 0:
+            self.direction = self.speed
+            self.speed = Vector((0, 0))
 
     def render(self, screen):
         origin_rec = self.rect
