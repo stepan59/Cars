@@ -5,15 +5,15 @@ from Car import Car
 from Menu import Menu
 from Road import Road
 from Objects import Object
+from settings import *
 
 GREY = (100, 100, 100)
-FPS = 60
 
 
 class Game:
     def __init__(self):
         pygame.init()
-        pygame.display.set_mode((1000, 800))
+        pygame.display.set_mode(RESOLUTIONS)
         self.font = pygame.font.SysFont("Courier New", 18)
         self.font2 = pygame.font.SysFont("Courier New", 45)
         self.font_finish = pygame.font.SysFont("Courier New", 75)

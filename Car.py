@@ -2,6 +2,7 @@ import os
 import sys
 import pygame
 from Vector import Vector
+from settings import *
 
 
 NORMAL = 0
@@ -110,5 +111,6 @@ class Car:
         rotate_rec.center = origin_rec.center
         rotate_rec.move_ip(self.pos.as_point())
         screen.blit(image_rotate, rotate_rec)
-        pygame.draw.line(screen, GREEN, self.pos.as_point(), (self.pos + self.speed * 10).as_point())
-        pygame.draw.rect(screen, WHITE, self.rect.move(self.pos.x, self.pos.y), 3)
+        if DEBUG:
+            pygame.draw.line(screen, GREEN, self.pos.as_point(), (self.pos + self.speed * 10).as_point())
+            pygame.draw.rect(screen, WHITE, self.rect.move(self.pos.x, self.pos.y), 3)
